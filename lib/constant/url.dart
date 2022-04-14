@@ -7,7 +7,7 @@ const latihanUrl = '$apiUrl/latihan';
 const pertanyaanUrl = '$apiUrl/pertanyaan';
 const hasilLatihanUrl = '$apiUrl/hasil-latihan';
 const kurikulumUrl = '$apiUrl/kurikulum';
-const profilUrl = '$apiUrl/user';
+const profilUrl = '$apiUrl/profile';
 
 //* Google docs Url untuk WebView
 const googleDocsUrl = 'https://docs.google.com/gview?embedded=true&url=';
