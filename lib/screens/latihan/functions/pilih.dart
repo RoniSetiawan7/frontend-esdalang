@@ -7,7 +7,6 @@ import 'package:esdalang_app/screens/latihan/tampil_latihan.dart';
 import 'package:esdalang_app/services/nilai_services.dart';
 import 'package:esdalang_app/services/pertanyaan_services.dart';
 import 'package:esdalang_app/widgets/dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,7 +58,7 @@ class _PilihState extends State<Pilih> {
               children: [
                 nilai.isEmpty
                     ? _isLoading
-                        ? const CupertinoActivityIndicator(radius: 20)
+                        ? _circularProgressIndicator()
                         : Column(
                             children: [
                               const Text('Belum Dikerjakan',
@@ -71,7 +70,7 @@ class _PilihState extends State<Pilih> {
                             ],
                           )
                     : _isLoading
-                        ? const CupertinoActivityIndicator(radius: 20)
+                        ? _circularProgressIndicator()
                         : Column(
                             children: [
                               const Text('Sudah Dikerjakan',
@@ -91,7 +90,7 @@ class _PilihState extends State<Pilih> {
               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             );
           }
-          return const CupertinoActivityIndicator(radius: 20);
+          return _circularProgressIndicator();
         },
       ),
     );
@@ -122,4 +121,14 @@ class _PilihState extends State<Pilih> {
       }
     }
   }
+}
+
+_circularProgressIndicator() {
+  return const SizedBox(
+    height: 50,
+    width: 50,
+    child: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
 }

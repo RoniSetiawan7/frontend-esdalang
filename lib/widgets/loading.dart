@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MyLoading extends StatelessWidget {
   const MyLoading({Key? key}) : super(key: key);
@@ -9,7 +9,7 @@ class MyLoading extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
-          CupertinoActivityIndicator(radius: 20),
+          CircularProgressIndicator(),
           SizedBox(height: 10),
           Text(
             'Mohon tunggu sebentar...',
