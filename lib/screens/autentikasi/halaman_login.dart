@@ -62,7 +62,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 16, right: 16, top: 20),
-                    height: size.height * 0.1,
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       decoration: myInputDecoration(
@@ -77,7 +76,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(16, 5, 16, 30),
-                    height: size.height * 0.1,
                     child: TextFormField(
                       obscureText: _secureText,
                       decoration: myInputDecoration(
@@ -110,19 +108,22 @@ class _HalamanLoginState extends State<HalamanLogin> {
                     loading: _isLoading,
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 16),
+                    margin: const EdgeInsets.fromLTRB(16, 30, 16, 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('Belum punya akun? ',
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        InkWell(
-                          child: const Text('Daftar sekarang',
-                              style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontWeight: FontWeight.bold)),
-                          onTap: () => Navigator.pushNamed(
-                              context, '/halamanRegistrasi'),
+                        Flexible(
+                          child: InkWell(
+                            child: const Text('Daftar sekarang',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () => Navigator.pushNamed(
+                                context, '/halamanRegistrasi'),
+                          ),
                         )
                       ],
                     ),

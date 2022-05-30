@@ -62,7 +62,6 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 16, right: 16, top: 20),
-                    height: size.height * 0.1,
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       decoration: myInputDecoration(
@@ -77,7 +76,6 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 16, right: 16, top: 5),
-                    height: size.height * 0.1,
                     child: TextFormField(
                       keyboardType: TextInputType.name,
                       decoration: myInputDecoration(
@@ -164,7 +162,6 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 16, right: 16, top: 5),
-                    height: size.height * 0.1,
                     child: TextFormField(
                       obscureText: _secureText,
                       maxLength: 15,
@@ -192,7 +189,6 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(16, 5, 16, 30),
-                    height: size.height * 0.1,
                     child: TextFormField(
                       obscureText: _secureText,
                       maxLength: 15,
@@ -230,19 +226,22 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
                     loading: _isLoading,
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 30, bottom: 16),
+                    margin: const EdgeInsets.fromLTRB(16, 30, 16, 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('Sudah punya akun? ',
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        InkWell(
-                          child: const Text('Login di sini',
-                              style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontWeight: FontWeight.bold)),
-                          onTap: () =>
-                              Navigator.pushNamed(context, '/halamanLogin'),
+                        Flexible(
+                          child: InkWell(
+                            child: const Text('Login di sini',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontWeight: FontWeight.bold)),
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/halamanLogin'),
+                          ),
                         )
                       ],
                     ),
