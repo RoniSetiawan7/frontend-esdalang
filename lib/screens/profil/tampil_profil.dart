@@ -7,6 +7,8 @@ import 'package:esdalang_app/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'widgets/user_detail.dart';
+
 class TampilProfil extends StatefulWidget {
   const TampilProfil({Key? key}) : super(key: key);
 
@@ -76,15 +78,16 @@ class _TampilProfilState extends State<TampilProfil> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _userDetail(
-                          'NIS                      :', siswa.nis.toString()),
-                      _userDetail('Nama                  :', siswa.nmSiswa),
-                      _userDetail(
-                        'Kelas                   :',
-                        (siswa.idKelas == '7')
+                      const SizedBox(height: 10),
+                      MyUserDetail(
+                          text1: 'NIS                      :',
+                          text2: siswa.nis.toString()),
+                      MyUserDetail(
+                          text1: 'Nama                  :',
+                          text2: siswa.nmSiswa),
+                      MyUserDetail(
+                        text1: 'Kelas                   :',
+                        text2: (siswa.idKelas == '7')
                             ? 'Tujuh'
                             : (siswa.idKelas == '8')
                                 ? 'Delapan'
@@ -92,33 +95,37 @@ class _TampilProfilState extends State<TampilProfil> {
                                     ? 'Sembilan'
                                     : '-',
                       ),
-                      _userDetail(
-                          'Sub Kelas          :', siswa.subKelas ?? '-'),
-                      _userDetail(
-                        'Jenis Kelamin   :',
-                        (siswa.jk == 'L')
+                      MyUserDetail(
+                          text1: 'Sub Kelas          :',
+                          text2: siswa.subKelas ?? '-'),
+                      MyUserDetail(
+                        text1: 'Jenis Kelamin   :',
+                        text2: (siswa.jk == 'L')
                             ? 'Laki-laki'
                             : (siswa.jk == 'P')
                                 ? 'Perempuan'
                                 : '-',
                       ),
-                      _userDetail(
-                          'Tempat Lahir     :', siswa.tempatLahir ?? '-'),
-                      _userDetail(
-                          'Tanggal Lahir    :',
-                          siswa.tglLahir == null
+                      MyUserDetail(
+                          text1: 'Tempat Lahir     :',
+                          text2: siswa.tempatLahir ?? '-'),
+                      MyUserDetail(
+                          text1: 'Tanggal Lahir    :',
+                          text2: siswa.tglLahir == null
                               ? '-'
                               : DateFormat('dd MMMM yyyy').format(
                                   DateTime.parse(
                                       '${siswa.tglLahir}'.split(' ')[0]))),
-                      _userDetail('Agama                :', siswa.agama ?? '-'),
-                      _userDetail(
-                          'Alamat                :', siswa.alamat ?? '-'),
-                      _userDetail(
-                          'No. Telp              :', siswa.noTelp ?? '-'),
-                      const SizedBox(
-                        height: 16,
-                      ),
+                      MyUserDetail(
+                          text1: 'Agama                :',
+                          text2: siswa.agama ?? '-'),
+                      MyUserDetail(
+                          text1: 'Alamat                :',
+                          text2: siswa.alamat ?? '-'),
+                      MyUserDetail(
+                          text1: 'No. Telp              :',
+                          text2: siswa.noTelp ?? '-'),
+                      const SizedBox(height: 16),
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -137,31 +144,4 @@ class _TampilProfilState extends State<TampilProfil> {
       ),
     );
   }
-}
-
-_userDetail(String text1, text2) {
-  return Container(
-    margin: const EdgeInsets.only(left: 4, right: 4),
-    height: 65,
-    child: Card(
-      elevation: 4,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Text(
-              text1,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(text2, softWrap: true),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
 }
