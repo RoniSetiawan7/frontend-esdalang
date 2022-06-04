@@ -1,5 +1,5 @@
 //* Backend Url
-const baseUrl = 'https://esdalang.000webhostapp.com';
+const baseUrl = 'https://esdalang.my.id';
 const apiUrl = '$baseUrl/api';
 const materiUrl = '$apiUrl/materi';
 const subMateriUrl = '$apiUrl/sub-materi';
