@@ -16,8 +16,8 @@ class HalamanUtama extends StatefulWidget {
 }
 
 class _HalamanUtamaState extends State<HalamanUtama> {
-  int? nis;
-  String? nama, idKelas, subKelas;
+  int? idKelas, nis;
+  String? nama, subKelas;
 
   @override
   void initState() {

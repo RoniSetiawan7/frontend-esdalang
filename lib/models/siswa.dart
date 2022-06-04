@@ -1,7 +1,8 @@
 class Siswa {
   int nis;
+  int? idKelas;
   String nmSiswa;
-  String? jk, tempatLahir, agama, alamat, noTelp, idKelas, subKelas;
+  String? jk, tempatLahir, agama, alamat, noTelp, subKelas;
   DateTime? tglLahir;
 
   Siswa({

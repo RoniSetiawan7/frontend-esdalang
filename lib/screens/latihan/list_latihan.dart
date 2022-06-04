@@ -21,7 +21,7 @@ class ListLatihan extends StatefulWidget {
 
 class _ListLatihanState extends State<ListLatihan> {
   Future<List<Latihan>>? _latihan;
-  String? idKelas;
+  int? idKelas;
 
   @override
   void initState() {
@@ -50,9 +50,9 @@ class _ListLatihanState extends State<ListLatihan> {
     return Scaffold(
       appBar: myAppBar(
           context: context,
-          title: (idKelas == '7')
+          title: (idKelas == 7)
               ? 'List Latihan - Kelas Tujuh'
-              : (idKelas == '8')
+              : (idKelas == 8)
                   ? 'List Latihan - Kelas Delapan'
                   : 'List Latihan - Kelas Sembilan'),
       body: MyBackground(
