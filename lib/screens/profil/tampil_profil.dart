@@ -56,8 +56,8 @@ class _TampilProfilState extends State<TampilProfil> {
                         height: 48,
                         margin: const EdgeInsets.only(left: 205),
                         child: FloatingActionButton.extended(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/ubahProfil',
+                          onPressed: () => Navigator
+                              .pushNamed(context, '/ubahProfil',
                                   arguments: UbahProfil(
                                       siswa: Siswa(
                                     nis: siswa.nis,
@@ -70,7 +70,9 @@ class _TampilProfilState extends State<TampilProfil> {
                                     noTelp: siswa.noTelp,
                                     idKelas: siswa.idKelas,
                                     subKelas: siswa.subKelas,
-                                  ))),
+                                  ))).then((_) => setState(() {
+                                _siswa = SiswaServices.getSiswa();
+                              })),
                           icon: const Icon(Icons.edit_outlined),
                           label: const Text(
                             'Perbarui',
@@ -87,11 +89,11 @@ class _TampilProfilState extends State<TampilProfil> {
                           text2: siswa.nmSiswa),
                       MyUserDetail(
                         text1: 'Kelas                   :',
-                        text2: (siswa.idKelas == '7')
+                        text2: (siswa.idKelas == 7)
                             ? 'Tujuh'
-                            : (siswa.idKelas == '8')
+                            : (siswa.idKelas == 8)
                                 ? 'Delapan'
-                                : (siswa.idKelas == '9')
+                                : (siswa.idKelas == 9)
                                     ? 'Sembilan'
                                     : '-',
                       ),

@@ -8,7 +8,8 @@ import 'package:esdalang_app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-//! DATETIME -> JIKA BUTTON HIJAU BELUM DI KLIK, VALUE YG AKAN DISIMPAN ADALAH DATETIME.NOW()
+import 'widgets/label.dart';
+import 'widgets/textfield.dart';
 
 class UbahProfil extends StatefulWidget {
   final Siswa siswa;
@@ -21,22 +22,34 @@ class UbahProfil extends StatefulWidget {
 class _UbahProfilState extends State<UbahProfil> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  bool _isClosed = false;
+
+  void _closed() {
+    setState(() {
+      _isClosed = true;
+    });
+  }
 
   // ignore: prefer_typing_uninitialized_variables
   var nis, nmSiswa, jk, tempatLahir, agama, alamat, noTelp, idKelas, subKelas;
 
-  DateTime? tglLahir;
-  DateTime? hariIni = DateTime.now();
+  DateTime tglLahir = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: widget.siswa.tglLahir ?? hariIni!,
-        firstDate: DateTime(1990),
-        lastDate: DateTime(2100));
-    if (picked != null && picked != hariIni) {
+      context: context,
+      initialDate: widget.siswa.tglLahir ?? tglLahir,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2200),
+    );
+    if (picked != null && picked != tglLahir) {
       setState(() {
-        hariIni = picked;
+        tglLahir = picked;
+      });
+    }
+    if (widget.siswa.tglLahir != null) {
+      setState(() {
+        widget.siswa.tglLahir = picked;
       });
     }
   }
@@ -105,9 +118,48 @@ class _UbahProfilState extends State<UbahProfil> {
                 ),
                 const SizedBox(height: 20),
 
-                //* TEXTFIELD NOMOR INDUK SISWA
-                _label(text: 'Nomor Induk Siswa :'),
-                _textField(
+                !_isClosed
+                    ? Container(
+                        margin: const EdgeInsets.only(left: 16, right: 16),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                child: const Icon(Icons.close),
+                                onTap: () => _closed(),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              child: Column(
+                                children: const [
+                                  Text(
+                                    'Informasi !',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Jika anda melakukan perubahan data nama, kelas dan sub kelas, silahkan logout dari aplikasi kemudian login kembali.',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      )
+                    : Container(),
+
+                //* Textfield Nomor Induk Siswa
+                const MyLabel(text: 'Nomor Induk Siswa :'),
+                MyTextField(
                     hint: 'Nomor Induk Siswa',
                     initialValue: widget.siswa.nis.toString(),
                     validator: (nisValue) {
@@ -115,20 +167,18 @@ class _UbahProfilState extends State<UbahProfil> {
                     },
                     readOnly: true),
 
-                //* TEXTFIELD NAMA SISWA
-                _label(text: 'Nama Siswa :', required: '*'),
-                _textField(
+                //* Textfield Nama Siswa
+                const MyLabel(text: 'Nama Siswa :', required: '*'),
+                MyTextField(
                     hint: 'Nama Siswa',
                     initialValue: widget.siswa.nmSiswa,
                     validator: (nmSiswaValue) {
-                      if (nmSiswaValue!.isEmpty) return '* Nama wajib diisi';
                       nmSiswa = nmSiswaValue;
-                      return null;
                     },
                     readOnly: false),
 
-                //* RADIO BUTTON JENIS KELAMIN
-                _label(text: 'Jenis Kelamin :', required: '*'),
+                //* Radio Button Jenis Kelamin
+                const MyLabel(text: 'Jenis Kelamin :', required: '*'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -155,9 +205,9 @@ class _UbahProfilState extends State<UbahProfil> {
                   ],
                 ),
 
-                //* TEXTFIELD TEMPAT LAHIR
-                _label(text: 'Tempat Lahir :'),
-                _textField(
+                //* Textfield Tempat Lahir
+                const MyLabel(text: 'Tempat Lahir :'),
+                MyTextField(
                     hint: 'Tempat Lahir',
                     initialValue: widget.siswa.tempatLahir,
                     validator: (tempatLahirValue) {
@@ -165,39 +215,37 @@ class _UbahProfilState extends State<UbahProfil> {
                     },
                     readOnly: false),
 
-                //* DATETIME TANGGAL LAHIR
-                _label(text: 'Tanggal Lahir :', required: '*'),
+                //* DateTime Tanggal Lahir
+                const MyLabel(text: 'Tanggal Lahir :', required: '*'),
                 Container(
                   margin:
                       const EdgeInsets.only(left: 16, right: 16, bottom: 15),
-                  height: 55,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                          widget.siswa.tglLahir == null
-                              ? 'dd-mm-yyyy'
-                              : DateFormat('dd-MM-yyyy').format(DateTime.parse(
-                                  '${widget.siswa.tglLahir}'.split(' ')[0])),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600)),
-                      ElevatedButton(
-                        onPressed: () => _selectDate(context),
-                        child: Text(
-                          'Ubah : ' +
-                              DateFormat('dd-MM-yyyy').format(
-                                DateTime.parse(
-                                    '${hariIni?.toLocal()}'.split(' ')[0]),
-                              ),
+                  child: InkWell(
+                    onTap: () => _selectDate(context),
+                    child: IgnorePointer(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintStyle: const TextStyle(color: Colors.black),
+                          hintText: DateFormat('dd MMMM yyyy')
+                              .format(widget.siswa.tglLahir ?? tglLahir),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 1.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 1.5),
+                          ),
                         ),
-                        style: ElevatedButton.styleFrom(primary: Colors.green),
                       ),
-                    ],
+                    ),
                   ),
                 ),
 
-                //* DROPDOWN AGAMA
-                _label(text: 'Agama :', required: '*'),
+                //* Dropdown Agama
+                const MyLabel(text: 'Agama :', required: '*'),
                 Container(
                   margin:
                       const EdgeInsets.only(left: 16, right: 16, bottom: 15),
@@ -236,9 +284,9 @@ class _UbahProfilState extends State<UbahProfil> {
                   ),
                 ),
 
-                //* TEXTFIELD ALAMAT
-                _label(text: 'Alamat :'),
-                _textField(
+                //* Textfield Alamat
+                const MyLabel(text: 'Alamat :'),
+                MyTextField(
                     hint: 'Alamat',
                     initialValue: widget.siswa.alamat,
                     validator: (alamatValue) {
@@ -246,9 +294,9 @@ class _UbahProfilState extends State<UbahProfil> {
                     },
                     readOnly: false),
 
-                //* TEXTFIELD NOMOR TELP
-                _label(text: 'No. Telp :'),
-                _textField(
+                //* Textfield Nomor Telepon
+                const MyLabel(text: 'No. Telp :'),
+                MyTextField(
                     hint: 'No. Telp',
                     initialValue: widget.siswa.noTelp,
                     validator: (noTelpValue) {
@@ -256,8 +304,8 @@ class _UbahProfilState extends State<UbahProfil> {
                     },
                     readOnly: false),
 
-                //* DROPDOWN ID KELAS DAN SUB KELAS
-                _label(text: 'Kelas & Sub Kelas:', required: '*'),
+                //* Dropdown Id Kelas dan Sub Kelas
+                const MyLabel(text: 'Kelas & Sub Kelas:', required: '*'),
                 Container(
                   margin:
                       const EdgeInsets.only(left: 16, right: 16, bottom: 15),
@@ -283,17 +331,20 @@ class _UbahProfilState extends State<UbahProfil> {
                               },
                               hint: const Text('Pilih Kelas'),
                               isExpanded: true,
-                              items: <String>[
-                                '7 Tujuh',
-                                '8 Delapan',
-                                '9 Sembilan'
-                              ].map<DropdownMenuItem<String>>(
-                                  (String listIdKelas) {
-                                return DropdownMenuItem<String>(
-                                  value: listIdKelas[0],
-                                  child: Text(listIdKelas.split(' ')[1]),
-                                );
-                              }).toList(),
+                              items: const [
+                                DropdownMenuItem(
+                                  child: Text('Tujuh'),
+                                  value: 7,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Delapan'),
+                                  value: 8,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Sembilan'),
+                                  value: 9,
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -317,14 +368,28 @@ class _UbahProfilState extends State<UbahProfil> {
                               },
                               hint: const Text('Pilih Sub Kelas'),
                               isExpanded: true,
-                              items: <String>['A', 'B', 'C', 'D', 'E', 'F']
-                                  .map<DropdownMenuItem<String>>(
-                                      (String listSubKelas) {
-                                return DropdownMenuItem<String>(
-                                  value: listSubKelas,
-                                  child: Text(listSubKelas),
-                                );
-                              }).toList(),
+                              items: const [
+                                DropdownMenuItem(
+                                  child: Text('A'),
+                                  value: 'A',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('B'),
+                                  value: 'B',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('C'),
+                                  value: 'C',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('D'),
+                                  value: 'D',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('E'),
+                                  value: 'E',
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -352,8 +417,8 @@ class _UbahProfilState extends State<UbahProfil> {
       'nm_siswa': nmSiswa,
       'jk': jk ?? widget.siswa.jk,
       'tempat_lahir': tempatLahir,
-      'tgl_lahir': hariIni?.toString().split(' ')[0] ??
-          widget.siswa.tglLahir?.toString().split(' ')[0],
+      'tgl_lahir': widget.siswa.tglLahir?.toString().split(' ')[0] ??
+          tglLahir.toString().split(' ')[0],
       'agama': agama ?? widget.siswa.agama,
       'alamat': alamat,
       'no_telp': noTelp,
@@ -367,7 +432,7 @@ class _UbahProfilState extends State<UbahProfil> {
 
     if (body['success']) {
       _showSuccessMsg(body['message']);
-      Navigator.pushNamed(context, '/profile');
+      Navigator.pop(context);
     } else {
       if (body['data']['nis'] != null) {
         _showErrorMsg(body['data']['nis'][0].toString());
@@ -388,45 +453,4 @@ class _UbahProfilState extends State<UbahProfil> {
       _isLoading = false;
     });
   }
-}
-
-_textField(
-    {required String hint, initialValue, validator, required bool readOnly}) {
-  return Container(
-    margin: const EdgeInsets.only(left: 16, right: 16, bottom: 15),
-    child: TextFormField(
-      initialValue: initialValue,
-      readOnly: readOnly,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.blue, width: 1.5),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.blue, width: 1.5),
-        ),
-        hintText: hint,
-      ),
-      validator: validator,
-    ),
-  );
-}
-
-_label({required String text, String? required}) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      Container(
-        margin: const EdgeInsets.only(left: 16, bottom: 3),
-        child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
-      ),
-      Container(
-        margin: const EdgeInsets.only(left: 5, bottom: 3),
-        child: Text(required ?? '',
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.red)),
-      ),
-    ],
-  );
 }
