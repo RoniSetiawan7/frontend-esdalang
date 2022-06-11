@@ -1,8 +1,10 @@
 import 'package:esdalang_app/constant/url.dart';
 import 'package:esdalang_app/models/materi.dart';
 import 'package:esdalang_app/widgets/appbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TampilMateri extends StatefulWidget {
   final SubMateri subMateri;
@@ -13,9 +15,18 @@ class TampilMateri extends StatefulWidget {
 }
 
 class _TampilMateriState extends State<TampilMateri> {
-  InAppWebViewController? webView;
+  InAppWebViewController? _webViewController;
   String? url;
   double progress = 0;
+
+  Future<void> _downloadFile() async {
+    String url = baseUrl + widget.subMateri.materiPath;
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Tidak bisa membuka $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,22 +38,19 @@ class _TampilMateriState extends State<TampilMateri> {
               widget.subMateri.bab.toString(),
           actions: [
             IconButton(
-              icon: const Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-              onPressed: () => webView?.loadUrl(
-                urlRequest: URLRequest(
-                  url: Uri.parse(
-                      googleDocsUrl + baseUrl + widget.subMateri.materiPath),
-                ),
-              ),
-            )
+                onPressed: () => _downloadFile(),
+                icon: const Icon(Icons.download)),
+            IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  if (_webViewController != null) {
+                    _webViewController?.reload();
+                  }
+                }),
           ]),
       body: Column(
         children: [
           Container(
-              padding: const EdgeInsets.all(5),
               child: progress < 1
                   ? LinearProgressIndicator(value: progress)
                   : Container()),
@@ -50,19 +58,9 @@ class _TampilMateriState extends State<TampilMateri> {
             child: InAppWebView(
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
-                      googleDocsUrl + baseUrl + widget.subMateri.materiPath)),
-              onWebViewCreated: (InAppWebViewController controller) {
-                webView = controller;
-              },
-              onLoadStart: (controller, url) {
-                setState(() {
-                  this.url = url?.toString() ?? '';
-                });
-              },
-              onLoadStop: (controller, url) async {
-                setState(() {
-                  this.url = url?.toString() ?? '';
-                });
+                      openDocumentUrl + baseUrl + widget.subMateri.materiPath)),
+              onWebViewCreated: (controller) {
+                _webViewController = controller;
               },
               onProgressChanged: (controller, progress) {
                 setState(
