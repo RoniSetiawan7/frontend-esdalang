@@ -120,7 +120,7 @@ class _UbahProfilState extends State<UbahProfil> {
 
                 !_isClosed
                     ? Container(
-                        margin: const EdgeInsets.only(left: 16, right: 16),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
                             color: Colors.grey.shade100,
                             borderRadius: BorderRadius.circular(10)),
@@ -134,7 +134,7 @@ class _UbahProfilState extends State<UbahProfil> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               child: Column(
                                 children: const [
                                   Text(

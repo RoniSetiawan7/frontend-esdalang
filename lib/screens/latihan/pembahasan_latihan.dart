@@ -52,7 +52,7 @@ class PembahasanLatihan extends StatelessWidget {
                               color: Colors.black),
                         })),
                     Container(
-                      margin: const EdgeInsets.only(left: 8, right: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
                         '${jawaban[index]}',
                         style: TextStyle(
@@ -64,7 +64,7 @@ class PembahasanLatihan extends StatelessWidget {
                     benar
                         ? Container()
                         : Container(
-                            margin: const EdgeInsets.only(left: 8, right: 8),
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

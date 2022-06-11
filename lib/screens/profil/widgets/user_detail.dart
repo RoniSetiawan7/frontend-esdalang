@@ -8,7 +8,7 @@ class MyUserDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 4, right: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       height: 75,
       child: Card(
         elevation: 5,
