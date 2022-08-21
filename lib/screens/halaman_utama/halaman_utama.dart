@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:esdalang_app/constant/url.dart';
 import 'package:esdalang_app/services/http_services.dart';
 import 'package:esdalang_app/widgets/grid.dart';
 import 'package:esdalang_app/widgets/snackbar.dart';
@@ -17,7 +18,7 @@ class HalamanUtama extends StatefulWidget {
 
 class _HalamanUtamaState extends State<HalamanUtama> {
   int? idKelas, nis;
-  String? nama, subKelas;
+  String? nama, subKelas, fotoPath;
 
   @override
   void initState() {
@@ -31,12 +32,14 @@ class _HalamanUtamaState extends State<HalamanUtama> {
     var namaSiswa = jsonDecode(prefs.getString('nm_siswa')!);
     var idKelasSiswa = jsonDecode(prefs.getString('id_kelas')!);
     var subKelasSiswa = jsonDecode(prefs.getString('sub_kelas')!);
+    var fotoSiswa = jsonDecode(prefs.getString('foto_path')!);
 
     setState(() {
       nis = nisSiswa;
       nama = namaSiswa;
       idKelas = idKelasSiswa;
       subKelas = subKelasSiswa;
+      fotoPath = fotoSiswa;
     });
   }
 
@@ -103,16 +106,21 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                 ),
                 trailing: GestureDetector(
                   onTap: () => _showLogoutDialog(),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Text(
-                      '$nama'[0].toUpperCase(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.blue),
-                    ),
-                  ),
+                  child: fotoPath == null
+                      ? CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Text(
+                            '$nama'[0].toUpperCase(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue),
+                          ),
+                        )
+                      : CircleAvatar(
+                          backgroundImage: NetworkImage(baseUrl + '$fotoPath'),
+                          backgroundColor: Colors.transparent,
+                        ),
                 ),
               ),
               Expanded(

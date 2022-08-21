@@ -46,8 +46,7 @@ class _ListSubMateriState extends State<ListSubMateri> {
                             elevation: 5,
                             child: ListTile(
                               title: Text(subMateri[index].nmMateri),
-                              subtitle: Text(
-                                  'Bab : ' + subMateri[index].bab.toString()),
+                              subtitle: Text('Bab ' + subMateri[index].bab),
                               leading: CircleAvatar(
                                 backgroundColor: Colors.lightBlue,
                                 child: Text(

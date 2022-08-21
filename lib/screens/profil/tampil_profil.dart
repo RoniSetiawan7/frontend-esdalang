@@ -1,3 +1,4 @@
+import 'package:esdalang_app/constant/url.dart';
 import 'package:esdalang_app/models/siswa.dart';
 import 'package:esdalang_app/screens/profil/ubah_profil.dart';
 import 'package:esdalang_app/services/siswa_services.dart';
@@ -41,17 +42,24 @@ class _TampilProfilState extends State<TampilProfil> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(height: 20),
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.blue,
-                        child: Text(
-                          siswa.nmSiswa[0].toUpperCase(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 36),
-                        ),
-                      ),
+                      siswa.fotoPath == null
+                          ? CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.blue,
+                              child: Text(
+                                siswa.nmSiswa[0].toUpperCase(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 36),
+                              ),
+                            )
+                          : CircleAvatar(
+                              radius: 60,
+                              backgroundImage:
+                                  NetworkImage(baseUrl + siswa.fotoPath!),
+                              backgroundColor: Colors.transparent,
+                            ),
                       Container(
                         height: 48,
                         margin: const EdgeInsets.only(left: 205),
@@ -70,6 +78,7 @@ class _TampilProfilState extends State<TampilProfil> {
                                     noTelp: siswa.noTelp,
                                     idKelas: siswa.idKelas,
                                     subKelas: siswa.subKelas,
+                                    fotoPath: siswa.fotoPath,
                                   ))).then((_) => setState(() {
                                 _siswa = SiswaServices.getSiswa();
                               })),
@@ -93,13 +102,10 @@ class _TampilProfilState extends State<TampilProfil> {
                             ? 'Tujuh'
                             : (siswa.idKelas == 8)
                                 ? 'Delapan'
-                                : (siswa.idKelas == 9)
-                                    ? 'Sembilan'
-                                    : '-',
+                                : 'Sembilan',
                       ),
                       MyUserDetail(
-                          text1: 'Sub Kelas          :',
-                          text2: siswa.subKelas ?? '-'),
+                          text1: 'Sub Kelas          :', text2: siswa.subKelas),
                       MyUserDetail(
                         text1: 'Jenis Kelamin   :',
                         text2: (siswa.jk == 'L')

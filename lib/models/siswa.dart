@@ -1,8 +1,7 @@
 class Siswa {
-  int nis;
-  int? idKelas;
-  String nmSiswa;
-  String? jk, tempatLahir, agama, alamat, noTelp, subKelas;
+  int nis, idKelas;
+  String nmSiswa, subKelas;
+  String? jk, tempatLahir, agama, alamat, noTelp, fotoPath;
   DateTime? tglLahir;
 
   Siswa({
@@ -14,8 +13,9 @@ class Siswa {
     this.agama,
     this.alamat,
     this.noTelp,
-    this.idKelas,
-    this.subKelas,
+    required this.idKelas,
+    required this.subKelas,
+    this.fotoPath,
   });
 
   factory Siswa.fromJson(Map<String, dynamic> json) => Siswa(
@@ -29,6 +29,7 @@ class Siswa {
         noTelp: json['no_telp'],
         idKelas: json['id_kelas'],
         subKelas: json['sub_kelas'],
+        fotoPath: json['foto_path'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -42,5 +43,6 @@ class Siswa {
         'no_telp': noTelp,
         'id_kelas': idKelas,
         'sub_kelas': subKelas,
+        'foto_path': fotoPath,
       };
 }

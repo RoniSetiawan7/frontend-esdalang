@@ -142,7 +142,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
       _isLoading = true;
     });
 
-    var data = {'nis': nis, 'password': password};
+    var data = {'id_siswa': nis, 'password': password};
 
     var res = await HttpServices.postData(data, '/login');
     var body = json.decode(res.body);
@@ -155,6 +155,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
       prefs.setString('nm_siswa', json.encode(body['data']['nm_siswa']));
       prefs.setString('id_kelas', json.encode(body['data']['id_kelas']));
       prefs.setString('sub_kelas', json.encode(body['data']['sub_kelas']));
+      prefs.setString('foto_path', json.encode(body['data']['foto_path']));
 
       _showSuccessMsg(body['message']);
       Navigator.pushNamedAndRemoveUntil(

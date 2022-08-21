@@ -22,7 +22,7 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool _secureText = true;
-  String? nis, nmSiswa, idKelas, subKelas, password, passwordConfirmation;
+  String? nis, password, passwordConfirmation;
 
   _showHide() {
     setState(() {
@@ -72,92 +72,6 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
                         nis = nisValue;
                         return null;
                       },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 16, right: 16, top: 5),
-                    child: TextFormField(
-                      keyboardType: TextInputType.name,
-                      decoration: myInputDecoration(
-                          icon: Icons.person_outline, label: 'Nama Siswa'),
-                      validator: (nmSiswaValue) {
-                        if (nmSiswaValue!.isEmpty) return '* Nama wajib diisi';
-                        nmSiswa = nmSiswaValue;
-                        return null;
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(16, 5, 16, 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: size.width / 2.3,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue, width: 1.5),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: ButtonTheme(
-                              alignedDropdown: true,
-                              child: DropdownButton(
-                                value: idKelas,
-                                onChanged: (idKelasValue) {
-                                  setState(() {
-                                    idKelas = idKelasValue as String?;
-                                  });
-                                },
-                                hint: const Text('Pilih Kelas'),
-                                isExpanded: true,
-                                items: <String>[
-                                  '7 Tujuh',
-                                  '8 Delapan',
-                                  '9 Sembilan'
-                                ].map<DropdownMenuItem<String>>(
-                                    (String listIdKelas) {
-                                  return DropdownMenuItem<String>(
-                                    value: listIdKelas[0],
-                                    child: Text(listIdKelas.split(' ')[1]),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: size.width / 2.3,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue, width: 1.5),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: ButtonTheme(
-                              alignedDropdown: true,
-                              child: DropdownButton(
-                                value: subKelas,
-                                onChanged: (subKelasValue) {
-                                  setState(() {
-                                    subKelas = subKelasValue as String?;
-                                  });
-                                },
-                                hint: const Text('Pilih Sub Kelas'),
-                                isExpanded: true,
-                                items: <String>['A', 'B', 'C', 'D', 'E', 'F']
-                                    .map<DropdownMenuItem<String>>(
-                                        (String listSubKelas) {
-                                  return DropdownMenuItem<String>(
-                                    value: listSubKelas,
-                                    child: Text(listSubKelas),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                   Container(
@@ -261,10 +175,7 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
     });
 
     var data = {
-      'nis': nis,
-      'nm_siswa': nmSiswa,
-      'id_kelas': idKelas,
-      'sub_kelas': subKelas,
+      'id_siswa': nis,
       'password': password,
       'password_confirmation': passwordConfirmation
     };
@@ -280,17 +191,16 @@ class _HalamanRegistrasiState extends State<HalamanRegistrasi> {
       prefs.setString('nm_siswa', json.encode(body['data']['nm_siswa']));
       prefs.setString('id_kelas', json.encode(body['data']['id_kelas']));
       prefs.setString('sub_kelas', json.encode(body['data']['sub_kelas']));
+      prefs.setString('foto_path', json.encode(body['data']['foto_path']));
 
       _showSuccessMsg(body['message']);
       Navigator.pushNamedAndRemoveUntil(
           context, '/halamanUtama', (Route<dynamic> route) => false);
     } else {
-      if (body['data']['nis'] != null) {
-        _showErrorMsg(body['data']['nis'][0].toString());
-      } else if (body['data']['id_kelas'] != null) {
-        _showErrorMsg(body['data']['id_kelas'][0].toString());
-      } else if (body['data']['sub_kelas'] != null) {
-        _showErrorMsg(body['data']['sub_kelas'][0].toString());
+      if (body['data']['id_siswa'] != null) {
+        _showErrorMsg(body['data']['id_siswa'][0].toString());
+      } else if (body['data']['error'] != null) {
+        _showErrorMsg(body['data']['error'].toString());
       }
     }
 

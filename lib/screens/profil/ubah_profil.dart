@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:esdalang_app/constant/url.dart';
 import 'package:esdalang_app/models/siswa.dart';
 import 'package:esdalang_app/services/http_services.dart';
 import 'package:esdalang_app/widgets/appbar.dart';
@@ -105,17 +106,24 @@ class _UbahProfilState extends State<UbahProfil> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.blue,
-                  child: Text(
-                    widget.siswa.nmSiswa[0].toUpperCase(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 36),
-                  ),
-                ),
+                widget.siswa.fotoPath == null
+                    ? CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.blue,
+                        child: Text(
+                          widget.siswa.nmSiswa[0].toUpperCase(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 36),
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 60,
+                        backgroundImage:
+                            NetworkImage(baseUrl + widget.siswa.fotoPath!),
+                        backgroundColor: Colors.transparent,
+                      ),
                 const SizedBox(height: 20),
 
                 !_isClosed
@@ -145,7 +153,7 @@ class _UbahProfilState extends State<UbahProfil> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'Jika anda melakukan perubahan data nama, kelas dan sub kelas, silahkan logout dari aplikasi kemudian login kembali.',
+                                    'Jika terdapat kesalahan data yang tidak dapat dirubah oleh siswa, silahkan hubungi guru untuk melakukan perubahan data.',
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
@@ -175,7 +183,7 @@ class _UbahProfilState extends State<UbahProfil> {
                     validator: (nmSiswaValue) {
                       nmSiswa = nmSiswaValue;
                     },
-                    readOnly: false),
+                    readOnly: true),
 
                 //* Radio Button Jenis Kelamin
                 const MyLabel(text: 'Jenis Kelamin :', required: '*'),
@@ -292,7 +300,7 @@ class _UbahProfilState extends State<UbahProfil> {
                     validator: (alamatValue) {
                       alamat = alamatValue;
                     },
-                    readOnly: false),
+                    readOnly: true),
 
                 //* Textfield Nomor Telepon
                 const MyLabel(text: 'No. Telp :'),
@@ -324,11 +332,12 @@ class _UbahProfilState extends State<UbahProfil> {
                             alignedDropdown: true,
                             child: DropdownButton(
                               value: idKelas ?? widget.siswa.idKelas,
-                              onChanged: (idKelasValue) {
-                                setState(() {
-                                  idKelas = idKelasValue;
-                                });
-                              },
+                              // onChanged: (idKelasValue) {
+                              //   setState(() {
+                              //     idKelas = idKelasValue;
+                              //   });
+                              // },
+                              onChanged: null,
                               hint: const Text('Pilih Kelas'),
                               isExpanded: true,
                               items: const [
@@ -361,11 +370,12 @@ class _UbahProfilState extends State<UbahProfil> {
                             alignedDropdown: true,
                             child: DropdownButton(
                               value: subKelas ?? widget.siswa.subKelas,
-                              onChanged: (subKelasValue) {
-                                setState(() {
-                                  subKelas = subKelasValue;
-                                });
-                              },
+                              // onChanged: (subKelasValue) {
+                              //   setState(() {
+                              //     subKelas = subKelasValue;
+                              //   });
+                              // },
+                              onChanged: null,
                               hint: const Text('Pilih Sub Kelas'),
                               isExpanded: true,
                               items: const [

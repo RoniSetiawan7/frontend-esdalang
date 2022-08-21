@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.esdalang_app">
    <uses-permission android:name="android.permission.INTERNET" />
+   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+   <uses-permission android:name="android.permission.WAKE_LOCK" />
    <application
+        android:usesCleartextTraffic="true"
         android:label="Esdalang App"
         android:name="${applicationName}"
         android:icon="@mipmap/my_launcher">

@@ -11,8 +11,7 @@ class Materi {
 }
 
 class SubMateri {
-  String kodeMateri, nmMateri, nmKelas, nmGuru, fileMateri, materiPath;
-  int bab;
+  String kodeMateri, nmMateri, nmKelas, nmGuru, bab, isiMateri;
 
   SubMateri({
     required this.kodeMateri,
@@ -20,8 +19,7 @@ class SubMateri {
     required this.nmKelas,
     required this.nmGuru,
     required this.bab,
-    required this.fileMateri,
-    required this.materiPath,
+    required this.isiMateri,
   });
 
   factory SubMateri.fromJson(Map<String, dynamic> json) => SubMateri(
@@ -30,7 +28,6 @@ class SubMateri {
         nmKelas: json['nm_kelas'],
         nmGuru: json['nm_guru'],
         bab: json['bab'],
-        fileMateri: json['file_materi'],
-        materiPath: json['materi_path'],
+        isiMateri: json['isi_materi'],
       );
 }

@@ -9,7 +9,7 @@ import 'package:esdalang_app/widgets/dialog.dart';
 import 'package:esdalang_app/widgets/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'widgets/appbar.dart';
@@ -128,12 +128,11 @@ class _TampilLatihanState extends State<TampilLatihan> {
                             },
                           ),
                         ),
-                  Html(
-                    data: widget.pertanyaan[_indexSekarang].soal,
-                    style: {
-                      'html': Style(
-                          fontSize: const FontSize(16), color: Colors.white),
-                    },
+                  TeXView(
+                    child:
+                        TeXViewDocument(widget.pertanyaan[_indexSekarang].soal),
+                    style: const TeXViewStyle(margin: TeXViewMargin.all(4)),
+                    renderingEngine: const TeXViewRenderingEngine.katex(),
                   ),
                   const SizedBox(height: 25),
                   Card(

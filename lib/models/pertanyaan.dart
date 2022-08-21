@@ -1,6 +1,6 @@
 class Pertanyaan {
-  int id, bab;
-  String idLatihan, soal, kodeMateri, nmMateri, materiPath, jawabanBenar;
+  int id;
+  String idLatihan, soal, kodeMateri, nmMateri, bab, isiMateri, jawabanBenar;
   String? ketGambar, imagePath;
   List<String> jawabanSalah;
 
@@ -13,7 +13,7 @@ class Pertanyaan {
     required this.kodeMateri,
     required this.nmMateri,
     required this.bab,
-    required this.materiPath,
+    required this.isiMateri,
     required this.jawabanBenar,
     required this.jawabanSalah,
   });
@@ -27,7 +27,7 @@ class Pertanyaan {
         kodeMateri: json['kode_materi'],
         nmMateri: json['nm_materi'],
         bab: json['bab'],
-        materiPath: json['materi_path'],
+        isiMateri: json['isi_materi'],
         jawabanBenar: json['jawaban_benar'],
         jawabanSalah: List<String>.from(json['jawaban_salah'].map((x) => x)),
       );

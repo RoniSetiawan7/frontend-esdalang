@@ -3,7 +3,7 @@ import 'package:esdalang_app/screens/latihan/tampil_materi_latihan.dart';
 import 'package:esdalang_app/screens/latihan/widgets/appbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 
 class PembahasanLatihan extends StatelessWidget {
   final List<Pertanyaan> pertanyaan;
@@ -45,12 +45,13 @@ class PembahasanLatihan extends StatelessWidget {
                 child: ListBody(
                   children: [
                     ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Html(data: pertanyaan[index].soal, style: {
-                          'html': Style(
-                              fontSize: const FontSize(16),
-                              color: Colors.black),
-                        })),
+                      contentPadding: EdgeInsets.zero,
+                      title: TeXView(
+                        child: TeXViewDocument(pertanyaan[index].soal),
+                        style: const TeXViewStyle(margin: TeXViewMargin.all(8)),
+                        renderingEngine: const TeXViewRenderingEngine.katex(),
+                      ),
+                    ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
@@ -103,7 +104,7 @@ class PembahasanLatihan extends StatelessWidget {
                                       TextSpan(
                                         text: pertanyaan[index].nmMateri +
                                             ' Bab ' +
-                                            pertanyaan[index].bab.toString(),
+                                            pertanyaan[index].bab,
                                         style: const TextStyle(
                                           fontSize: 16,
                                           color: Colors.blue,
